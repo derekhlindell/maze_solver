@@ -1,14 +1,15 @@
-from graphics import Window
+from graphics import Window, Line, Point
 from cell import Cell
 
 def main():
     win = Window(800, 600)
     # Draw here
 
-    x1 = 200
-    y1 = 200
-    x2 = 300
-    y2 = 550
+    x1 = 100
+    y1 = 100
+    x2 = 200
+    y2 = 200
+
     cell = Cell(win)
     cell.draw(x1, y1, x2, y2)
 
@@ -20,14 +21,15 @@ def main():
     c.has_right_wall = False
     c.draw(125, 125, 200, 200)
 
-    c = Cell(win)
-    c.has_bottom_wall = False
-    c.draw(225, 225, 250, 250)
+    c2 = Cell(win)
+    c2.has_bottom_wall = False
+    c2.draw(225, 225, 250, 250)
 
     c = Cell(win)
     c.has_top_wall = False
     c.draw(300, 300, 500, 500)
 
+    c.draw_move(c2)
     win.wait_for_close()
 
 
