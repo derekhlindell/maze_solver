@@ -1,5 +1,7 @@
 from tkinter import Tk, BOTH, Canvas
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Window:
     def __init__(self, width, height):
@@ -10,6 +12,14 @@ class Window:
         self.__canvas.pack()
         self.__running = False
 
+    def __repr__(self):
+        return f'''Window(
+                __root={self.__root!r},
+                __root.title()={self.__root.title()!r},
+                __root.protocol()={self.__root.protocol()!r},
+                __canvas={self.__canvas!r},
+                __running={self.__running!r},
+            )'''
     def redraw(self):
         self.__root.update_idletasks()
         self.__root.update()

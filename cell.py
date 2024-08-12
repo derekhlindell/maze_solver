@@ -1,5 +1,7 @@
 from graphics import Window, Line, Point
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Cell:
     def __init__(self, win=None):
@@ -7,12 +9,30 @@ class Cell:
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
+        self.visited = False
         self.__x1 = None
         self.__y1 = None
         self.__x2 = None
         self.__y2 = None
         self.__win = win
     
+    def __repr__(self):
+        rep = f"""Cell(
+                has_left_wall={self.has_left_wall!r}
+                has_right_wall={self.has_right_wall!r}
+                has_top_wall={self.has_top_wall!r}
+                has_bottom_wall={self.has_bottom_wall!r}
+                visited={self.visited!r}
+
+                __x1={self.__x1!r}
+                __y1={self.__y1!r}
+                __x2={self.__x2!r}
+                __y2={self.__y2!r}
+
+                __win={self.__win!r}
+            )"""
+        return rep
+
     def draw(self, x1, y1, x2, y2):
         ''' draw the cell '''
         self.__x1 = x1
@@ -43,13 +63,15 @@ class Cell:
             self.__win.draw_line(line)
         else:
             self.__win.draw_line(line, "#d9d9d9")
-    
+        
+
     def get_center(self):
         ''' calculate the center of the cell '''
         center_x = (self.__x1 + self.__x2) // 2
         center_y = (self.__y1 + self.__y2) // 2
         return center_x, center_y
     
+
     def draw_move(self, to_cell, undo=False):
         ''' creates a line from the centers of this cell to another cell '''
         # get this cells center
@@ -64,5 +86,4 @@ class Cell:
             fill_color = "gray"
         
         self.__win.draw_line(line, fill_color)
-
-
+        

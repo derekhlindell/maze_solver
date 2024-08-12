@@ -2,6 +2,9 @@ import unittest
 
 from maze import Maze
 
+import logging
+logger = logging.getLogger(__name__)
+
 class Tests(unittest.TestCase):
     def test_maze_create_cells(self):
         num_cols = 12

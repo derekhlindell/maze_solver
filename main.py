@@ -1,8 +1,15 @@
 from graphics import Window, Line, Point
 from cell import Cell
 from maze import Maze
+import random
+import logging
+logger = logging.getLogger(__name__)
 
 def main():
+    # logging.basicConfig(filename='maze_solver.log', level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
+    logger.info(' Started')
+
     win = Window(800, 600)
     # Draw here
 
@@ -14,15 +21,17 @@ def main():
     maze = Maze(
             50,
             50,
-            3,
-            3,
+            9,
+            9,
             50,
             50,
-            win
+            win,
+            0
         )
 
-    
-    # cells
+    # logging.debug(maze)
+
+    # # cells
     # cell = Cell(win)
     # cell.draw(x1, y1, x2, y2)
 
@@ -45,6 +54,6 @@ def main():
     # c.draw_move(c2)
 
     win.wait_for_close()
-
+    logger.info(' Finished')
 
 main()
