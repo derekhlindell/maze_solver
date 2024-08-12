@@ -39,6 +39,8 @@ class Maze:
         logging.info(" breaking walls ")
         self._break_walls_r(0,0)
 
+        self._reset_cells_visited()
+
     def __repr__(self):
         return f'''Maze(
                 _cells={self._cells!r},
@@ -87,7 +89,7 @@ class Maze:
         if self.win is None:
             return
         self.win.redraw()
-        time.sleep(.025)
+        time.sleep(.01)
 
     def _break_entrance_and_exit(self):
         first_cell = self._cells[0][0]
@@ -97,52 +99,77 @@ class Maze:
         last_cell.has_right_wall = False
         self._draw_cell(len(self._cells)-1,len(self._cells)-1)
 
+    def _check_valid_cells(self, current_cell, i, j, check_walls=False):
+        ''' 
+            check each adjacent cell if they haven't been visited.
+            if check_walls is on, check if there are any walls in the way. 
+        '''
+        valid_cell_coords = []
+
+        # check left
+        if i-1 >= 0 and not self._cells[i-1][j].visited:
+            if not check_walls or (
+                not current_cell.has_left_wall and 
+                not self._cells[i-1][j].has_right_wall
+            ):
+                valid_cell_coords.append((i-1,j))
+        # check right
+        if i+1 < self.num_cols and not self._cells[i+1][j].visited:
+            if not check_walls or (
+                not current_cell.has_right_wall and 
+                not self._cells[i+1][j].has_left_wall
+            ):
+                valid_cell_coords.append((i+1, j))
+        # check top
+        if j-1 >= 0 and not self._cells[i][j-1].visited:
+            if not check_walls or (
+                not current_cell.has_top_wall and 
+                not self._cells[i][j-1].has_bottom_wall
+            ):
+                valid_cell_coords.append((i,j-1))
+        ## check bottom
+        if j+1 < self.num_rows and not self._cells[i][j+1].visited:
+            if not check_walls or (
+                not current_cell.has_bottom_wall and 
+                not self._cells[i][j+1].has_top_wall
+            ):
+                valid_cell_coords.append((i,j+1))
+
+        return valid_cell_coords
+
     def _break_walls_r(self, i, j):
         # mark current cell as visited
         current_cell = self._cells[i][j]
         current_cell.visited = True
         direction = None
-
         while True:
-            to_visit = []
-            # check left
-            if i-1 >= 0 and self._cells[i-1][j].visited is False:
-                    to_visit.append((i-1,j))
-            # check right
-            if i+1 < self.num_cols and self._cells[i+1][j].visited is False:
-                    to_visit.append((i+1,j))
-            # check top
-            if j-1 >= 0 and self._cells[i][j-1].visited is False:
-                    to_visit.append((i,j-1))
-            ## check bottom
-            if j+1 < self.num_rows and self._cells[i][j+1].visited is False:
-                    to_visit.append((i,j+1))
-
+            to_visit = self._check_valid_cells(current_cell, i, j)
 
             # if there are no cells we can go to then draw the current cell and return
             if len(to_visit) < 1:
                 # draw current cell
                 self._draw_cell(i, j)
                 return
+
             else:
                 #randomly choose which cell we're going to visit next
                 next_col, next_row = random.choice(to_visit)
                 next_cell = self._cells[next_col][next_row]
 
-                # check which direction the next cell is
-                # next cell is left
+                # check which direction the next cell is and remove walls
+                # left
                 if next_col < i:
                     current_cell.has_left_wall = False
                     next_cell.has_right_wall = False
-                # next cell is right
+                # right
                 elif next_col > i:
                     current_cell.has_right_wall = False
                     next_cell.has_left_wall = False
-                # next cell is above
+                # top
                 elif next_row < j:
                     current_cell.has_top_wall = False
                     next_cell.has_bottom_wall = False
-                # next cell is below
+                # bottom
                 elif next_row > j:
                     current_cell.has_bottom_wall = False
                     next_cell.has_top_wall = False
@@ -151,11 +178,34 @@ class Maze:
 
                 # move to next cell
                 self._break_walls_r(next_col, next_row)
-        
-        self._reset_cells_visited()
-
 
     def _reset_cells_visited(self):
         for col in range(self.num_cols):
             for row in range(self.num_rows):
-                self._cell[col][row].visited = False
+                self._cells[col][row].visited = False
+
+    def _solve_r(self, i, j):
+        self._animate()
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+
+        #if at end, return True
+        if current_cell == self._cells[self.num_rows-1][self.num_cols-1]:
+            return True
+
+        valid_cell_coords = self._check_valid_cells(current_cell, i, j, check_walls=True)
+        print(valid_cell_coords)
+        if len(valid_cell_coords) == 0:
+            print("no cells")
+            return False
+
+        for cell_coord in valid_cell_coords:
+            next_cell = self._cells[cell_coord[0]][cell_coord[1]]
+            current_cell.draw_move(next_cell)
+            if self._solve_r(cell_coord[0], cell_coord[1]):
+                return True
+            else:
+                current_cell.draw_move(next_cell, undo=True)
+
+    def solve(self):
+        return self._solve_r(0, 0)

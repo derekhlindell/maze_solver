@@ -64,13 +64,11 @@ class Cell:
         else:
             self.__win.draw_line(line, "#d9d9d9")
 
-
     def get_center(self):
         ''' calculate the center of the cell '''
         center_x = (self.__x1 + self.__x2) // 2
         center_y = (self.__y1 + self.__y2) // 2
         return center_x, center_y
-
 
     def draw_move(self, to_cell, undo=False):
         ''' creates a line from the centers of this cell to another cell '''
@@ -81,9 +79,8 @@ class Cell:
         # if undo is set, create a gray line
         line = Line(Point(center_x, center_y), Point(to_center_x, to_center_y))
 
-        fill_color = "red"
+        fill_color = "green"
         if undo:
-            fill_color = "gray"
+            fill_color = "tomato"
 
         self.__win.draw_line(line, fill_color)
-

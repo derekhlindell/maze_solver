@@ -36,9 +36,16 @@ class Tests(unittest.TestCase):
         num_cols = 12
         num_rows = 10
         m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
+
+        visited = []
+        for col in range(num_cols):
+            for row in range(num_rows):
+                if m1._cells[col][row].visited:
+                    visited.append(m1._cells[col][row])
+        
         self.assertEqual(
-            len(m1._cells[2]),
-            num_rows,
+            len(visited),
+            0
         )
 
 if __name__ == "__main__":
