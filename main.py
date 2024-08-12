@@ -25,8 +25,7 @@ def main():
             9,
             50,
             50,
-            win,
-            0
+            win
         )
 
     maze.solve()
