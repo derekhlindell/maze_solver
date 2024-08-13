@@ -10,7 +10,7 @@ class Tests(unittest.TestCase):
         """Test if the maze creates the correct number of cells based on the input rows and columns."""
         num_cols = 12
         num_rows = 10
-        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
+        m1 = Maze(0, 0, num_cols, num_rows, 10, 10)
         self.assertEqual(
             len(m1._cells),
             num_cols,
@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
         
         num_cols = 16
         num_rows = 12
-        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
+        m1 = Maze(0, 0, num_cols, num_rows, 10, 10)
         self.assertEqual(
             len(m1._cells),
             num_cols,
@@ -39,7 +39,7 @@ class Tests(unittest.TestCase):
         """Test if all cells are unvisited after resetting the maze."""
         num_cols = 12
         num_rows = 10
-        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
+        m1 = Maze(0, 0, num_cols, num_rows, 10, 10)
 
         visited = []
         for col in range(num_cols):
