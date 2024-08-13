@@ -23,9 +23,9 @@ def main() -> None:
 
     ### Begin drawing inside window ###
 
-    margin = 50  # Margin of the maze
-    num_cols = 9  # Number of columns in the maze
-    num_rows = 9  # Number of rows in the maze
+    margin = 50       # Margin of the maze
+    num_cols = 9      # Number of columns in the maze
+    num_rows = 9      # Number of rows in the maze
     cell_size_x = 50  # Width of each cell in the maze
     cell_size_y = 50  # Height of each cell in the maze
 
