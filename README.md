@@ -14,7 +14,7 @@ This is a semi-guided project from boot.dev
 
 - Finish this project within a single weekend
 - Create a program with Pythonic, clean, well-structured, and clear code.
-- Includes features like type-hinting, docstrings, and __repr__ methods.
+- Includes features like type-hinting, docstrings, and `__repr__` methods.
 
 ## Features
 
