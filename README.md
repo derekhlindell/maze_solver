@@ -4,7 +4,7 @@
 
 The Maze Solver is a depth-first algorithm, enhanced with a Tkinter interface, designed to navigate and solve a maze efficiently.
 
-This is a semi-guided project from boot.dev
+This is a project from the algorithm section on boot.dev
 
 ## Demo
 
